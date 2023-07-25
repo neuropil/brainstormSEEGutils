@@ -266,17 +266,23 @@ class OpsceaMaker(ABC):
         return self.stripdigits(st)
 
     def stripdigits(self, s):
-        s1 = ''
-        for c in s:
-            if not c.isalpha() and not c.isspace():
+        endnum=len(s)
+        for i in range(len(s)):
+            endnum = len(s)-i-1
+            c = s[endnum]
+            if c.isalpha():
                 break
-            else:
-                s1 += c
-        return s1
+        return s[:endnum+1]
+        # for c in s:
+        #     if not c.isalpha() and not c.isspace():
+        #         break
+        #     else:
+        #         s1 += c
+        # return s1
 
 class BrainstormOpsceaMaker(OpsceaMaker):
     def do_imaging_elecs(self):
-        path_to_brainstormdb =  os.path.join(os.environ['HOME'], "Documents/brainstorm_db/IEEG_visualization/")
+        path_to_brainstormdb =  'E:\\brainstorm_db\\viz_seeg'
         brainstorm_channel_data_path = os.path.join(path_to_brainstormdb, "data", self.subjname, "*", "channel.mat") 
         # necessary because importing any edf to brainstorm creates a
         # channel.mat with null coordinates for each electrode, so we
